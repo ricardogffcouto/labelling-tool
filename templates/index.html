@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Image Labelling</title>
+  <style>
+    .label-button {
+      width: 200px;
+      height: 200px;
+      margin: 5px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    }
+
+    .label-buttons-container {
+      width: 1200px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .button-label {
+      margin-top: 120px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>Image Labelling</h1>
+  <form method="POST" action="/">
+    <input type="hidden" name="image_id" value="{{ image_id }}">
+    <input type="hidden" name="image_path" value="{{ image_path }}">
+    <h2>Label this image</h2>
+    <img id="image" width="200" src="{{ image_path }}" alt="Image">
+    <div class="label-buttons-container">
+    {% for label in labels %}
+      <button type="submit" name="label" value="{{ label }}" class="label-button" style="background-image: url({{ url_for('static', filename=label + '.png') }});">
+          <span class="button-label">{{ label }}</span>
+      </button>
+    {% endfor %}
+      </div>
+  </form>
+  <br>
+
+</body>
+</html>
