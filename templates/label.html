@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Image Labelling</title>
+  <style>
+    .label-button {
+      width: 200px;
+      height: 200px;
+      margin: 5px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+    }
+
+    .label-buttons-container {
+      width: 1200px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .button-label {
+      margin-top: 100px;
+      font-size: 48px;
+      color: white;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <h1>Image Labelling</h1>
+  <form method="POST" action="/label">
+    <input type="hidden" id="image_id" name="image_id" value="{{ image_id }}">
+    <input type="hidden" name="image_path" value="{{ image_path }}">
+    <h2>Label this image</h2>
+    <img id="image" width="200" src="{{ image_path }}" alt="Image">
+    <div class="label-buttons-container">
+    {% for label in labels %}
+      <button id="{{ keymap[loop.index - 1] }}" type="submit" name="label" value="{{ label }}" class="label-button" style="background-image: url({{ url_for('static', filename=label + '.png') }});">
+          <span class="button-label">{{ label }}</span>
+      </button>
+    {% endfor %}
+      </div>
+  </form>
+  <br>
+
+</body>
+<script>
+  // Execute a function when the user presses a key on the keyboard
+  window.addEventListener("keypress", function(event) {
+    // If the user presses the "Enter" key on the keyboard
+    var keys = {{ keymap|tojson }};
+
+    for (let k in keys) {
+      if (event.key == keys[k]) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById(keys[k]).click();
+      }
+    }
+    if (event.key === " ") {
+      // Cancel the default action, if needed
+      event.preventDefault();
+      // Trigger the button element with a click
+      document.getElementById("button").click();
+    }
+  });
+</script>
+</html>

@@ -18,7 +18,15 @@
       font-size: 20px;
       font-weight: bold;
       text-align: center;
-      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+      text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+    }
+
+    .yes {
+        background-color: darkgreen;
+    }
+
+    .no {
+        background-color: darkred;
     }
 
     .label-buttons-container {
@@ -31,27 +39,32 @@
     }
 
     .button-label {
-      margin-top: 120px;
+      margin-top: 100px;
+      font-size: 48px;
       color: white;
+      text-transform: uppercase;
     }
   </style>
 </head>
 <body>
   <h1>Image Labelling</h1>
-  <form method="POST" action="/">
-    <input type="hidden" name="image_id" value="{{ image_id }}">
-    <input type="hidden" name="image_path" value="{{ image_path }}">
-    <h2>Label this image</h2>
+    <h2>Is this label correct?</h2>
+    <h3>Image</h3>
     <img id="image" width="200" src="{{ image_path }}" alt="Image">
+    <h3>{{ prediction }}</h3>
+    <img id="image" width="200" src="{{ prediction_path }}" alt="Image">
     <div class="label-buttons-container">
-    {% for label in labels %}
-      <button type="submit" name="label" value="{{ label }}" class="label-button" style="background-image: url({{ url_for('static', filename=label + '.png') }});">
-          <span class="button-label">{{ label }}</span>
+      <form method="POST" action="/">
+        <input type="hidden" id="image_id" name="image_id" value="{{ image_id }}">
+        <input type="hidden" name="image_path" value="{{ image_path }}">
+        <input type="hidden" name="prediction" value="{{ prediction }}">
+        <button type="submit" value="yes" class="label-button yes">
+            <span class="button-label">Yes</span>
+        </button>
+      </form>
+      <button value="no" class="label-button no" onclick="location.href='/label'">
+        <span class="button-label">No</span>
       </button>
-    {% endfor %}
-      </div>
-  </form>
-  <br>
-
+    </div>
 </body>
 </html>
