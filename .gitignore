@@ -3,3 +3,4 @@ labelled/*
 model/*
 __pycache__
 Pipfile.lock
+.idea
